@@ -19,9 +19,15 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     if (result.success) {
         localStorage.setItem('token', result.token);
         localStorage.setItem('role', result.role); // Store the role in localStorage
-
-       window.location.href = 'dashboard.html';
+        const role = localStorage.getItem('role');
+           
+      if(role=="faculty"){
+        window.location='faculty_dashboard.html'
+    }else{
+        window.location.href='dashboard.html'
+      }
     } else {
+      
         messageElement.style.color = 'red';
         messageElement.textContent = 'Login failed: ' + result.message;
     }

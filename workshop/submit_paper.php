@@ -21,11 +21,12 @@ if ($jwt) {
         // Get the paper details from the request
         $data = json_decode(file_get_contents('php://input'), true);
         $title = $data['title'];
+        $status = $data['status'];
         $abstract = $data['abstract'];
 
         // Insert the new paper into the database
-        $query = $conn->prepare("INSERT INTO papers (user_id, title, abstract) VALUES (?, ?, ?)");
-        $query->bind_param('iss', $userId, $title, $abstract);
+        $query = $conn->prepare("INSERT INTO papers (user_id, title, abstract, state) VALUES (?, ?, ?, ?)");
+        $query->bind_param('isss', $userId, $title, $abstract, $status);
 
         if ($query->execute()) {
             echo json_encode(['success' => true, 'message' => 'Paper submitted successfully']);
