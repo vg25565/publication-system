@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, 
+          initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href=
+"https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+          rel="stylesheet">
+</head>
+<body>
+    <div class="flex p-10 flex-col gap-3">
+      <div >
+        <h2 class="font-bold text-3xl">Dashboard</h2>
+        <div class="font-bold" id="userDetails"></div>
+        
+        
+        <h3>Your Papers</h3>
+        <div id="papers" class="flex flex-row  gap-3"></div>
+        <button class="bg-blue-600 rounded-md p-2 mt-3 " onclick="window.location.href='submit_paper.html' " >Submit New Paper?</button>
+      </div>
+    </div>
+    <script>
+        async function fetchUserDetails() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const response = await fetch('verify_token.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                const user = result.user;
+                document.getElementById('userDetails').textContent = `Welcome, ${user.username} `;
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+
+        async function fetchPapers() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const response = await fetch('get_papers.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            const result = await response.json();
+            const papersDiv = document.getElementById('papers');
+
+            if (result.success) {
+                const papers = result.papers;
+                papersDiv.innerHTML = papers.map(paper => `
+                    <div class="bg-red-200 rounded-md p-4">
+                        <h4 class="font-bold">Title: ${paper.title}</h4>
+                        <p>${paper.abstract}</p>
+                        <p>Status: ${paper.state}</p>
+                        <p>Created on: ${paper.created_at}</p>
+                    </div>
+                `).join('');
+            } else {
+                papersDiv.textContent = 'No papers found.';
+            }
+        }
+
+       
+
+        fetchUserDetails();
+        fetchPapers();
+    </script>
+</body>
+</html>

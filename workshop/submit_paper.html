@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h3>Submit a New Paper</h3>
+    <form id="submitPaperForm">
+        <div >
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div>
+            <label for="abstract">Abstract:</label>
+            <textarea id="abstract" name="abstract" required></textarea>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+         async function submitPaper(event) {
+            event.preventDefault();
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const title = document.getElementById('title').value;
+            const abstract = document.getElementById('abstract').value;
+
+            const response = await fetch('submit_paper.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ title, abstract })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                alert('Paper submitted successfully');
+                fetchPapers();  // Refresh the papers list
+            } else {
+                alert('Failed to submit paper: ' + result.message);
+            }
+        }
+
+        document.getElementById('submitPaperForm').addEventListener('submit', submitPaper);
+    </script>
+</body>
+</html>
