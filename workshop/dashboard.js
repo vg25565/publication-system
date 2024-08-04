@@ -1,25 +1,38 @@
-document.addEventListener('DOMContentLoaded', async function() {
+async function fetchPapers() {
     const token = localStorage.getItem('token');
-    
-    if (!token) {
-        window.location.href = 'signup.html';
-        return;
-    }
-    
-    const response = await fetch('verify_token.php', {
-        method: 'POST',
+
+    const response = await fetch('papers.php', {
+        method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
         }
     });
 
     const result = await response.json();
-    
-    if (!result.success) {
-        localStorage.removeItem('token');
-        window.location.href = 'signup.html';
+    if (result.success) {
+        displayPapers(result.papers);
     } else {
-        document.getElementById('message').textContent = 'Token is valid';
+        console.error(result.message);
     }
-});
+}
+
+function displayPapers(papers) {
+    const papersContainer = document.getElementById('papersContainer');
+    papersContainer.innerHTML = '';
+
+    papers.forEach(paper => {
+        const paperElement = document.createElement('div');
+        paperElement.className = 'paper';
+        paperElement.innerHTML = `
+            <h3>${paper.title}</h3>
+            <p>${paper.abstract}</p>
+            <small>State: ${paper.state}</small>
+            <small>Created at: ${paper.created_at}</small>
+        `;
+        papersContainer.appendChild(paperElement);
+    });
+}
+
+// Call the fetchPapers function when the page loads
+document.addEventListener('DOMContentLoaded', fetchPapers);

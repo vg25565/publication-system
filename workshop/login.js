@@ -13,12 +13,14 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     });
 
     const result = await response.json();
-    console.log(result)
+    console.log(result);
     const messageElement = document.getElementById('message');
 
     if (result.success) {
         localStorage.setItem('token', result.token);
-        window.location.href = 'dashboard.html';
+        localStorage.setItem('role', result.role); // Store the role in localStorage
+
+       window.location.href = 'dashboard.html';
     } else {
         messageElement.style.color = 'red';
         messageElement.textContent = 'Login failed: ' + result.message;

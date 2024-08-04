@@ -21,18 +21,19 @@ if ($result->num_rows === 0) {
 
 $user = $result->fetch_assoc();
 
-if ($password==$user['password']) {
+if ($password == $user['password']) {
     $key = "abcd123";
     $payload = [
         'iss' => 'localhost',
         'aud' => 'localhost',
         'iat' => time(),
         'exp' => time() + (60 * 60),
-        'sub' => $user['id']
+        'sub' => $user['id'],
+        'role' => $user['role'] // Include the role in the JWT payload
     ];
 
     $jwt = JWT::encode($payload, $key, 'HS256');
-    echo json_encode(['success' => true, 'token' => $jwt]);
+    echo json_encode(['success' => true, 'token' => $jwt, 'role' => $user['role']]); // Return the role in the response
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
 }
