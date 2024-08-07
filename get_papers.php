@@ -41,7 +41,7 @@ if ($userRole == 'HOD') {
     $department = $user['department'];
 
     if (!empty($facultyName)) {
-        $query = $conn->prepare("SELECT * FROM papers 
+        $query = $conn->prepare("SELECT * FROM papers  
             WHERE user_id IN (SELECT id FROM users WHERE department = ? AND username LIKE ?) 
             AND MONTH(created_at) = ? AND YEAR(created_at) = ?
             ORDER BY created_at DESC");
@@ -75,9 +75,9 @@ $query->execute();
 $result = $query->get_result();
 $papers = $result->fetch_all(MYSQLI_ASSOC);
 
-// Check if any papers were found
+
 if (empty($papers)) {
-    // No papers submitted this month
+    
     echo json_encode(['success' => true, 'message' => 'Please upload a paper this month.']);
 } else {
     echo json_encode(['success' => true, 'papers' => $papers]);

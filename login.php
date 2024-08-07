@@ -21,7 +21,7 @@ if ($result->num_rows === 0) {
 
 $user = $result->fetch_assoc();
 
-if ($password == $user['password']) {
+if ($password==$user['password']) {
     $key = "abcd123";
     $payload = [
         'iss' => 'localhost',

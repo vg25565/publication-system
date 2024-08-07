@@ -3,13 +3,18 @@ document.getElementById('signupForm').addEventListener('submit', async function(
     
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    console.log(firstName, lastName, username, password);
+
+  
     
     const response = await fetch('signup.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({username, password, firstName, lastName})
     });
 
     const result = await response.json();

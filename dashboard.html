@@ -16,16 +16,19 @@
 
 
             <!-- Filters Section -->
-            <div class="mb-4 w-1/3">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="faculty_name">
-                    Search by Faculty Name
-                </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="faculty_name" type="text" placeholder="Faculty Name">
+            <div class="my-4 flex gap-3 items-center">
+                <div class="w-1/3">
+                    
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="faculty_name" type="text" placeholder="Faculty Name">
+                   
+                </div>
+                <div>
+                    <button class="bg-blue-600 text-white rounded-sm p-2" onclick="fetchPapers()">Apply Filters</button>
+                </div>
             </div>
-            <button class="bg-blue-600 rounded-md p-2" onclick="fetchPapers()">Apply Filters</button>
 
             <div id="papers" class="flex flex-row gap-3 mt-4"></div>
-            <button class="bg-blue-600 rounded-md p-2 mt-3" onclick="window.location.href='submit_paper.html'">Submit New Paper?</button>
+            <button class="bg-blue-600 rounded-sm text-white p-2 mt-3" onclick="window.location.href='submit_paper.html'">Submit New Paper?</button>
         </div>
     </div>
     <script>
@@ -96,10 +99,11 @@
         }
 
         return `
-            <div class="${bgColor} rounded-md p-4 mb-4">
+            <div class="${bgColor} shadow-md rounded-md p-4 mb-4">
                 <h4 class="font-bold">Title: ${paper.title}</h4>
                 <p>${paper.abstract}</p>
                 <p>Status: ${paper.state}</p>
+                <p>UserId: ${paper.id}</p>
                 <p>Created on: ${paper.created_at}</p>
             </div>
         `;
