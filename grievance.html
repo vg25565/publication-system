@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Grievance Form</title>
+    <
+</head>
+<body>
+    <h1>Faculty Grievance Form</h1>
+    <form action="grievance_submit.php" method="post" onsubmit="return validateForm()">
+        <label for="faculty">Faculty Name:</label>
+        <input type="text" name="faculty" id="faculty" required><br>
+        <label for="branch">Branch:</label>
+        <input type="text" name="branch" id="branch" required><br>
+        <label for="grievance">Grievance:</label>
+        <textarea name="grievance" id="grievance" required></textarea><br>
+        <input type="submit" value="Submit">
+        <script src="validate.js"></script>
+    </form>
+</body>
+</html>
