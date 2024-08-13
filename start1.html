@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Submissions</title>
+</head>
+<body>
+    <h1>Faculty Submissions</h1>
+    <form action="submit1.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <input type="hidden" name="action" value="insert">
+        <label for="faculty">Faculty Name:</label>
+        <input type="text" name="faculty" id="faculty" required><br>
+        <label for="branch">Branch:</label>
+        <input type="text" name="branch" id="branch" required><br>
+        <label for="file">File:</label>
+        <input type="file" name="file" id="file" required><br>
+        <input type="submit" value="Submit">
+    </form>
+    <a href="records1.html">View Records</a> <!-- Link to the records page -->
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="submit1.js"></script> <!-- Link to the external JS file -->
+</body>
+</html>
